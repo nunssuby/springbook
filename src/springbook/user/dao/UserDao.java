@@ -6,14 +6,21 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import java.sql.Driver;
+
 import springbook.user.domain.User;
 
 public class UserDao {
 	public void add(User user) throws ClassNotFoundException, SQLException {
 		Class.forName("com.mysql.jdbc.Driver");
-		Connection c = DriverManager.getConnection("jdbc:mysql://10.10.2.222/springbook?characterEncoding=UTF-8", "nunssuby",
-				"sindo2007");
+		Connection c = DriverManager.getConnection("jdbc:mysql://10.10.2.222/springbook?characterEncoding=UTF-8", "nunssuby", "sindo2007");
 
+		/*Javaì˜ Derby ì‚¬ìš©í•˜ë ¤ê³  í–ˆìŒ */
+//		Class.forName("org.apache.derby.jdbc.EmbeddedDriver").newInstance();
+//		Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
+//		Connection c = DriverManager.getConnection("jdbc:derby:C:\\Users\\nunssuby\\MyDB;create=true");
+//		Connection c = DriverManager.getConnection("jdbc:derby:memory:MYDB;create=true");
+		
 		PreparedStatement ps = c.prepareStatement(
 			"insert into users(id, name, password) values(?,?,?)");
 		ps.setString(1, user.getId());
@@ -29,8 +36,11 @@ public class UserDao {
 
 	public User get(String id) throws ClassNotFoundException, SQLException {
 		Class.forName("com.mysql.jdbc.Driver");
-		Connection c = DriverManager.getConnection("jdbc:mysql://10.10.2.222/springbook?characterEncoding=UTF-8", "nunssuby",
-				"sindo2007");
+		Connection c = DriverManager.getConnection("jdbc:mysql://10.10.2.222/springbook?characterEncoding=UTF-8", "nunssuby", "sindo2007");
+		
+		/*Javaì˜ Derby ì‚¬ìš©í•˜ë ¤ê³  í–ˆìŒ */
+//		Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
+//		Connection c = DriverManager.getConnection("jdbc:derby:C:\\Users\\nunssuby\\MyDB;create=true");
 		PreparedStatement ps = c
 				.prepareStatement("select * from users where id = ?");
 		ps.setString(1, id);
@@ -54,18 +64,18 @@ public class UserDao {
 
 		User user = new User();
 		user.setId("whiteship");
-		user.setName("¹é±â¼±");
+		user.setName("ë°±ê¸°ì„ ");
 		user.setPassword("married");
 
 		dao.add(user);
 			
-		System.out.println(user.getId() + " µî·Ï ¼º°ø");
+		System.out.println(user.getId() + " ë“±ë¡ ì„±ê³µ");
 		
 		User user2 = dao.get(user.getId());
 		System.out.println(user2.getName());
 		System.out.println(user2.getPassword());
 			
-		System.out.println(user2.getId() + " Á¶È¸ ¼º°ø");
+		System.out.println(user2.getId() + " ì¡°íšŒ ì„±ê³µ");
 	}
 
 }
